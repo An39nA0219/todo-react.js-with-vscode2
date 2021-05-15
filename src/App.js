@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import "./App.css";
+import { InputArea } from "./components/InputArea";
+import { IncompleteArea } from "./components/IncompleteArea";
+import { CompleteArea } from "./components/CompleteArea";
 
 function App() {
   const [newTodo, setNewTodo] = useState("");
@@ -30,64 +33,25 @@ function App() {
     const newIncompleteTodos = [...incompleteTodos, completeTodos[i]];
     setIncompleteTodos(newIncompleteTodos);
     completeTodos.splice(i, 1);
-  }
+  };
 
   return (
     <>
       <h1>ToDo App</h1>
-      <div className="inputArea">
-        <input
-          placeholder="Input ToDo"
-          value={newTodo}
-          onChange={onChangeInput}
-        ></input>
-        <button onClick={onClickAddNewTodo}>Add</button>
-      </div>
-      <div className="incompleteArea">
-        <h2>Incomplete Lists</h2>
-        <ul>
-          {incompleteTodos.map((todo, i) => {
-            return (
-              <li key={todo}>
-                {todo}
-                <button
-                  onClick={() => {
-                    onclickAddCompleteTodo(i);
-                  }}
-                >
-                  Done
-                </button>
-                <button
-                  onClick={() => {
-                    onClickDelete(i);
-                  }}
-                >
-                  Delete
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-      <div className="completeArea">
-        <h2>Complete Lists</h2>
-        <ul>
-          {completeTodos.map((todo, i) => {
-            return (
-              <li key={todo}>
-                {todo}
-                <button
-                  onClick={() => {
-                    onClickBack(i);
-                  }}
-                >
-                  Back
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+      <InputArea
+        newTodo={newTodo}
+        onChangeInput={onChangeInput}
+        onClickAddNewTodo={onClickAddNewTodo}
+      ></InputArea>
+      <IncompleteArea
+        incompleteTodos={incompleteTodos}
+        onclickAddCompleteTodo={onclickAddCompleteTodo}
+        onClickDelete={onClickDelete}
+      ></IncompleteArea>
+      <CompleteArea
+        completeTodos={completeTodos}
+        onClickBack={onClickBack}
+      ></CompleteArea>
     </>
   );
 }
