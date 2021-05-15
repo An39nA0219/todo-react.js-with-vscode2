@@ -3,18 +3,26 @@ import "./App.css";
 
 function App() {
   const [newTodo, setNewTodo] = useState("");
-  const [IncompleteTodos, setIncompleteTodos] = useState(["wash my hands"]);
+  const [incompleteTodos, setIncompleteTodos] = useState(["wash my hands"]);
+  const [completeTodos, setCompleteTodos] = useState([
+    "take a picture with my dog",
+  ]);
 
   const onChangeInput = (e) => {
     setNewTodo(e.target.value);
   };
-  const onClickInputAdd = () => {
-    const newIncompleteTodos = [...IncompleteTodos, newTodo];
+  const onClickAddNewTodo = () => {
+    const newIncompleteTodos = [...incompleteTodos, newTodo];
     setIncompleteTodos(newIncompleteTodos);
     setNewTodo("");
   };
+  const onclickAddCompleteTodo = (i) => {
+    const newCompleteTodos = [...completeTodos, incompleteTodos[i]];
+    setCompleteTodos(newCompleteTodos);
+    incompleteTodos.splice(i, 1);
+  };
   const onClickDelete = (i) => {
-    const newIncompleteTodos = [...IncompleteTodos];
+    const newIncompleteTodos = [...incompleteTodos];
     newIncompleteTodos.splice(i, 1);
     setIncompleteTodos(newIncompleteTodos);
   };
@@ -28,17 +36,29 @@ function App() {
           value={newTodo}
           onChange={onChangeInput}
         ></input>
-        <button onClick={onClickInputAdd}>Add</button>
+        <button onClick={onClickAddNewTodo}>Add</button>
       </div>
       <div className="incompleteArea">
         <h2>Incomplete Lists</h2>
         <ul>
-          {IncompleteTodos.map((todo, i) => {
+          {incompleteTodos.map((todo, i) => {
             return (
               <li>
                 {todo}
-                <button>Done</button>
-                <button onClick={() => {onClickDelete(i)}}>Delete</button>
+                <button
+                  onClick={() => {
+                    onclickAddCompleteTodo(i);
+                  }}
+                >
+                  Done
+                </button>
+                <button
+                  onClick={() => {
+                    onClickDelete(i);
+                  }}
+                >
+                  Delete
+                </button>
               </li>
             );
           })}
@@ -47,10 +67,14 @@ function App() {
       <div className="completeArea">
         <h2>Complete Lists</h2>
         <ul>
-          <li>
-            take a picture with my dog
-            <button>Back</button>
-          </li>
+          {completeTodos.map((todo) => {
+            return (
+              <li>
+                {todo}
+                <button>Back</button>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </>
