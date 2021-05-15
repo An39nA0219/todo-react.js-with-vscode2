@@ -4,6 +4,7 @@ import "./App.css";
 function App() {
   const [newTodo, setNewTodo] = useState("");
   const [IncompleteTodos, setIncompleteTodos] = useState(["wash my hands"]);
+
   const onChangeInput = (e) => {
     setNewTodo(e.target.value);
   };
@@ -11,6 +12,11 @@ function App() {
     const newIncompleteTodos = [...IncompleteTodos, newTodo];
     setIncompleteTodos(newIncompleteTodos);
     setNewTodo("");
+  };
+  const onClickDelete = (i) => {
+    const newIncompleteTodos = [...IncompleteTodos];
+    newIncompleteTodos.splice(i, 1);
+    setIncompleteTodos(newIncompleteTodos);
   };
 
   return (
@@ -27,12 +33,12 @@ function App() {
       <div className="incompleteArea">
         <h2>Incomplete Lists</h2>
         <ul>
-          {IncompleteTodos.map((todo) => {
+          {IncompleteTodos.map((todo, i) => {
             return (
               <li>
                 {todo}
                 <button>Done</button>
-                <button>Delete</button>
+                <button onClick={() => {onClickDelete(i)}}>Delete</button>
               </li>
             );
           })}
