@@ -26,6 +26,11 @@ function App() {
     newIncompleteTodos.splice(i, 1);
     setIncompleteTodos(newIncompleteTodos);
   };
+  const onClickBack = (i) => {
+    const newIncompleteTodos = [...incompleteTodos, completeTodos[i]];
+    setIncompleteTodos(newIncompleteTodos);
+    completeTodos.splice(i, 1);
+  }
 
   return (
     <>
@@ -43,7 +48,7 @@ function App() {
         <ul>
           {incompleteTodos.map((todo, i) => {
             return (
-              <li>
+              <li key={todo}>
                 {todo}
                 <button
                   onClick={() => {
@@ -67,11 +72,17 @@ function App() {
       <div className="completeArea">
         <h2>Complete Lists</h2>
         <ul>
-          {completeTodos.map((todo) => {
+          {completeTodos.map((todo, i) => {
             return (
-              <li>
+              <li key={todo}>
                 {todo}
-                <button>Back</button>
+                <button
+                  onClick={() => {
+                    onClickBack(i);
+                  }}
+                >
+                  Back
+                </button>
               </li>
             );
           })}
